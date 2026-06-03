@@ -6,6 +6,12 @@ import { connectDB } from './config/db.js';
 import { healthCheck } from './controllers/healthCheck.js';
 
 
+// ROUTE DIRECTORIES
+import notesRoutes from './routes/noteRoutes.js';
+import taskRoutes from './routes/taskRoutes.js';
+import userRoutes from './routes/userRoutes.js';
+
+
 // import path from 'path' = FOR DEPLOYMENT, __DIRNAME
 
 dotenv.config();
@@ -20,9 +26,13 @@ app.use((req, res, next) => {
 
 const PORT = process.env.PORT || 5001;
 
-const router = express.Router();
+// TESTING PURPOSES
+app.get("/api/health", healthCheck);
 
-router.get("/api/health", healthCheck);
+// MAIN ROUTES
+app.use("/api/notes", notesRoutes);
+app.use("/api/task", taskRoutes);
+app.use("/api/user", userRoutes);
 
 connectDB().then(() => {
     app.listen(PORT, () => {
