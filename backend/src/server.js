@@ -26,13 +26,15 @@ app.use((req, res, next) => {
 
 const PORT = process.env.PORT || 5001;
 
+app.use(express.json());
+
 // TESTING PURPOSES
 app.get("/api/health", healthCheck);
 
 // MAIN ROUTES
 app.use("/api/notes", notesRoutes);
-app.use("/api/task", taskRoutes);
-app.use("/api/user", userRoutes);
+app.use("/api/tasks", taskRoutes);
+app.use("/api/users", userRoutes);
 
 connectDB().then(() => {
     app.listen(PORT, () => {

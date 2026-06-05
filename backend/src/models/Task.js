@@ -25,14 +25,14 @@ const taskSchema = new mongoose.Schema({
 
     dueDate: {
         type: Date,
-        min: Date.now // Prevents adding dates from the past
+        min: Date.now, // Prevents adding dates from the past
     },
 
-    userId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-        required: true
-    }
+    // userId: {
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: "User",
+    //     required: true
+    // }
 
 },
     {
