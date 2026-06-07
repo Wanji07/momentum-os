@@ -1,15 +1,10 @@
-import Navbar from "../components/Navbar"
+import AppLayout from "../layouts/AppLayout"
 
 
 const Dashboard = () => {
     return (
         <>
-            <Navbar
-            title="📝 Notes"
-            searchContent="Note"
-            actionLabel="Create Note"
-            showSearch={true}
-            />
+            <AppLayout />
         </>
     )
 }

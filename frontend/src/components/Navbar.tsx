@@ -1,5 +1,6 @@
 
 import { SearchIcon } from "lucide-react";
+import { PanelRightClose } from "lucide-react";
 
 interface NavbarProps {
     title: string,
@@ -18,7 +19,13 @@ const Navbar = ({
     return (
         <>
             <div className="navbar bg-base-100 shadow-sm px-6 py-4 flex justify-between select-none">
-            <div>
+            <div className="flex items-center gap-4">
+                <label htmlFor="my-drawer-4" aria-label="open sidebar" className="btn btn-square btn-ghost">
+                    {/* Sidebar toggle icon */}
+                    <PanelRightClose 
+                    size={24}
+                    />
+                </label>
                 <a className="text-2xl font-semibold tracking-wider">{title}</a>
             </div>
             <div className="flex gap-3">
