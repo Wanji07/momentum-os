@@ -18,7 +18,7 @@ const Navbar = ({
 }: NavbarProps) => {
     return (
         <>
-            <div className="navbar bg-base-100 shadow-sm px-6 py-4 flex justify-between select-none">
+            <div className="navbar bg-base-200/50 shadow-sm px-6 py-4 flex justify-between select-none">
             <div className="flex items-center gap-4">
                 <label htmlFor="my-drawer-4" aria-label="open sidebar" className="btn btn-square btn-ghost">
                     {/* Sidebar toggle icon */}
@@ -46,7 +46,9 @@ const Navbar = ({
 
                     </label>
                 )}
-                <button type="button" className="btn btn-soft">{actionLabel}</button>
+                {actionLabel && (
+                    <button type="button" className="btn btn-soft">{actionLabel}</button>
+                )}
                 <div role="button" className="btn btn-ghost btn-circle avatar">
                     <div className="w-10 rounded-full">
                     <img
