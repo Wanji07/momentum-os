@@ -19,9 +19,9 @@ const AppLayout = ({
     actionLabel
 }: AppLayoutProps) => {
     return (
-        <div className="drawer lg:drawer-open">
+        <div className="drawer lg:drawer-open min-h-screen">
         <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
-        <div className="drawer-content">
+        <div className="drawer-content flex min-h-screen flex-col">
             {/* Navbar */}
 
             <Navbar
@@ -37,16 +37,16 @@ const AppLayout = ({
             </div>
         </div>
 
-        <div className="drawer-side is-drawer-close:overflow-visible">
+        <div className="drawer-side overflow-hidden is-drawer-close:overflow-visible">
             <label htmlFor="my-drawer-4" aria-label="close sidebar" className="drawer-overlay"></label>
 
-            <div className="flex min-h-full flex-col items-start bg-base-200/50 shadow-sm is-drawer-close:w-14 is-drawer-open:w-64">
+            <div className="flex h-screen flex-col items-start bg-base-200/50 shadow-sm is-drawer-close:w-14 is-drawer-open:w-64">
             
             <img src={Banner} 
             className="is-drawer-close:hidden"
             />
 
-            <ul className="menu w-full grow gap-5">
+            <ul className="menu w-full grow gap-5 overflow-hidden">
                 <li>
                 <button className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Dashboard">
                     <LayoutDashboard
