@@ -40,7 +40,7 @@ const Navbar = ({
 
                         <input
                             type="text" 
-                            placeholder={`Search ${searchContent}s`} 
+                            placeholder={`Search ${searchContent}`} 
                             className="w-auto"
                         />
 

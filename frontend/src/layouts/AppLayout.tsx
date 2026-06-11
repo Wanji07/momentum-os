@@ -1,6 +1,7 @@
 import Navbar from "../components/Navbar"
 import { NotebookPen, BoltIcon, SquareCheck, LayoutDashboard } from "lucide-react"
 import Banner from '../assets/branding/BannerTransparent.png'
+import { Link } from 'react-router'
 
 
 interface AppLayoutProps {
@@ -48,42 +49,42 @@ const AppLayout = ({
 
             <ul className="menu w-full grow gap-5 overflow-hidden">
                 <li>
-                <button className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Dashboard">
+                <Link to="/" className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Dashboard">
                     <LayoutDashboard
                     strokeWidth={1.8}
                     size={24}
                     />
                     <span className="is-drawer-close:hidden">Dashboard</span>
-                </button>
+                </Link>
                 </li>
                 <li>
-                <button className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Notes">
+                <Link to="/notes" className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Notes">
                     <NotebookPen
                     strokeWidth={1.8}
                     size={24}
                     />
                     <span className="is-drawer-close:hidden">Notes</span>
-                </button>
+                </Link>
                 </li>
 
                 <li>
-                <button className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Tasks">
+                <Link to="/" className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Tasks">
                     <SquareCheck
                     strokeWidth={1.8}
                     size={24}
                     />
                     <span className="is-drawer-close:hidden">Tasks</span>
-                </button>
+                </Link>
                 </li>
 
                 <li>
-                <button className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Settings">
+                <Link to="/" className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Settings">
                     <BoltIcon 
                     strokeWidth={1.8}
                     size={24}
                     />
                     <span className="is-drawer-close:hidden">Settings</span>
-                </button>
+                </Link>
                 </li>
             </ul>
             </div>
