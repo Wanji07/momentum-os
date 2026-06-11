@@ -68,7 +68,7 @@ const AppLayout = ({
                 </li>
 
                 <li>
-                <Link to="/" className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Tasks">
+                <Link to="/tasks" className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Tasks">
                     <SquareCheck
                     strokeWidth={1.8}
                     size={24}

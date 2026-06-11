@@ -7,7 +7,7 @@ const Notes = () => {
         title="Notes"
         showSearch={true}
         searchContent="Notes"
-        actionLabel="Create Notes"
+        actionLabel="Create Note"
         >
         
         <div className="container max-w-screen grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
