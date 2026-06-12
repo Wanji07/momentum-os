@@ -25,7 +25,7 @@ const Dashboard = () => {
                     </div>
                 </div>
                 <section className="stats-section flex flex-row justify-center gap-10">
-                    <div className="card w-full card-xl flex flex-row justify-center gap-12 shadow-md">
+                    <div className="card w-full card-xl flex flex-row justify-center gap-12">
                             <StatCard
                             title="Notes"
                             icon="📝"
