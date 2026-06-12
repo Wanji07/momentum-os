@@ -78,7 +78,7 @@ const AppLayout = ({
                 </li>
 
                 <li>
-                <Link to="/" className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Settings">
+                <Link to="/settings" className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Settings">
                     <BoltIcon 
                     strokeWidth={1.8}
                     size={24}

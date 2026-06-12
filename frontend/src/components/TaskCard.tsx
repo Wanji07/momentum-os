@@ -44,7 +44,7 @@ const TaskCard = ({
                     </div>
                 </div>
                 <div className="card-actions">
-                    <button type="button" className="btn btn-soft cursor-pointer">View</button>
+                    <button type="button" className="btn btn-soft btn-warning cursor-pointer">View</button>
                     <button type="button" className="btn btn-soft btn-info cursor-pointer">Edit</button>
                     <button type="button" className="btn btn-soft btn-success cursor-pointer">Complete</button>
                     <button type="button" className="btn btn-soft btn-error cursor-pointer">Delete</button>

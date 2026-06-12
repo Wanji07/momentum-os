@@ -2,6 +2,7 @@ import { Routes, Route } from "react-router"
 import Dashboard from "./pages/Dashboard"
 import Notes from "./pages/Notes"
 import Tasks from "./pages/Tasks"
+import Settings from './pages/Settings'
 
 const App = () => {
   return (
@@ -11,6 +12,7 @@ const App = () => {
           <Route path="/" element={<Dashboard />} />
           <Route path="/notes" element={<Notes />} />
           <Route path="/tasks" element={<Tasks />} />
+          <Route path="/settings" element={<Settings />} />
         </Routes>
       </div>
     </>
