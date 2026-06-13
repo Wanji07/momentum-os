@@ -45,7 +45,7 @@ const Notes = () => {
                 title={note.title}
                 content={note.content}
                 updatedAt={note.updatedAt}
-                // icon={note.icon}
+                icon={note.icon}
                 />
             ))}
 
