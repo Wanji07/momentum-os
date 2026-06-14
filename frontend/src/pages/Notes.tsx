@@ -6,6 +6,7 @@ import api from "../lib/axios"
 import toast from "react-hot-toast"
 
 interface NotesProps {
+    _id: string,
     title: string,
     content: string,
     updatedAt: string,
@@ -42,6 +43,7 @@ const Notes = () => {
         <div className="container max-w-screen grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
             {notes.map(note => (
                 <NoteCard
+                key={note._id}
                 title={note.title}
                 content={note.content}
                 updatedAt={note.updatedAt}
