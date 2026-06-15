@@ -1,7 +1,7 @@
-import AppLayout from "../layouts/AppLayout"
-import TaskCard from "../components/TaskCard"
+import AppLayout from "../../layouts/AppLayout"
+import TaskCard from "../../components/TaskCard"
 import { useEffect, useState } from 'react'
-import api from "../lib/axios"
+import api from "../../lib/axios"
 
 
 interface TasksProps {

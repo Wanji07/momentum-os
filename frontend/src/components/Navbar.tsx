@@ -1,21 +1,26 @@
 
 import { SearchIcon } from "lucide-react";
 import { PanelRightClose } from "lucide-react";
+import { Link } from "react-router";
 
 interface NavbarProps {
     title: string,
     actionLabel?: string;
     searchContent?: string,
-    showSearch?: boolean;
-    onActionClick?: () => void;
+    showSearch?: boolean,
+    url?: string
 }
 
 const Navbar = ({
     title,
     actionLabel,
     showSearch,
-    searchContent
+    searchContent,
+    url
 }: NavbarProps) => {
+
+    console.log(url)
+
     return (
         <>
             <div className="navbar bg-base-200/50 shadow-sm px-6 py-4 flex justify-between select-none">
@@ -46,8 +51,8 @@ const Navbar = ({
 
                     </label>
                 )}
-                {actionLabel && (
-                    <button type="button" className="btn btn-soft">{actionLabel}</button>
+                {actionLabel && url && (
+                    <Link to={url} type="button" className="btn btn-soft">{actionLabel}</Link>
                 )}
                 <div role="button" className="btn btn-ghost btn-circle avatar">
                     <div className="w-10 rounded-full">
