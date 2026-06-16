@@ -14,7 +14,7 @@ const NoteCard = ({
     icon
 }:NoteCardProps) => {
     return (
-        <div className="container card bg-base-200/30 w-full card-lg overflow-hidden">
+        <div className="card bg-base-200/30 w-full card-lg overflow-hidden">
             <div className="card-body flex flex-col gap-5">
                 <div className="card-content flex flex-col gap-2">
                     <h1 className="card-title text-xl font-semibold tracking-wide flex flex-row">

@@ -111,7 +111,7 @@ const CreateNotesPage = () => {
                                     </div>
 
                                     <div className="card-actions justify-end">
-                                        <button type="submit" className="btn btn-primary" disabled={loading}>
+                                        <button type="submit" className="btn btn-soft" disabled={loading}>
                                             {loading ? "Creating..." : "Create Note"}
                                         </button>
                                     </div>

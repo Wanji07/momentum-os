@@ -19,6 +19,8 @@ export async function getNoteById(req, res) {
         if (!note) return res.status(401).json({
             message: "Cannot find note!"
         });
+
+        res.status(200).json(note);
     } catch (error) {
         console.error("Error in getNoteById controller:", error);
 

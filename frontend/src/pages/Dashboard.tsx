@@ -114,7 +114,7 @@ const Dashboard = () => {
                             </div>
                             <div className="btn-group flex flex-row gap-5 ">
                                 <Link
-                                to="/"
+                                to="/notes/create"
                                 className="btn btn-soft p-6">Create Notes</Link>
 
                                 <Link
