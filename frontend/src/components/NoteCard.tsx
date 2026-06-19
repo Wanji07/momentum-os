@@ -1,18 +1,26 @@
 
 
 interface NoteCardProps {
+    _id: string
     title: string,
     content: string,
     updatedAt: string,
-    icon?: string
+    icon?: string,
+    handleDelete: (
+        id: string,
+        e: React.MouseEvent<HTMLButtonElement>
+    ) => void
 }
 
 const NoteCard = ({
+    _id,
     title,
     content,
     updatedAt,
-    icon
+    icon,
+    handleDelete
 }:NoteCardProps) => {
+
     return (
         <div className="card bg-base-200/30 w-full card-lg overflow-hidden">
             <div className="card-body flex flex-col gap-5">
@@ -27,7 +35,11 @@ const NoteCard = ({
                 <div className="card-actions">
                     <button type="button" className="btn btn-soft btn-warning cursor-pointer">View</button>
                     <button type="button" className="btn btn-soft btn-info cursor-pointer">Edit</button>
-                    <button type="button" className="btn btn-soft btn-error cursor-pointer">Delete</button>
+                    <button type="button" 
+                    onClick={(e) => {
+                        handleDelete(_id, e)
+                    }} 
+                    className="btn btn-soft btn-error cursor-pointer">Delete</button>
                 </div>
             </div>
         </div>

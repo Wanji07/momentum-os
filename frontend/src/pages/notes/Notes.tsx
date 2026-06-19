@@ -3,6 +3,8 @@ import { useState, useEffect } from 'react'
 import AppLayout from "../../layouts/AppLayout"
 import NoteCard from "../../components/NoteCard"
 import api from "../../lib/axios"
+import axios from 'axios'
+import toast from 'react-hot-toast'
 
 interface NotesProps {
     _id: string,
@@ -31,6 +33,24 @@ const Notes = () => {
         fetchNotes()
     }, [])
 
+    const handleDelete = async(id: string, e: React.MouseEvent<HTMLButtonElement>) => {
+
+        if (!window.confirm("Are you sure you want to delete this note?")) return;
+
+        e.preventDefault()
+        e.stopPropagation()
+
+        try {
+            await api.delete(`/notes/${id}`)
+            toast.success("Successfully deleted note!")
+            setNotes((prev) => prev.filter(note => note._id !== id));
+        } catch (error) {
+            if (axios.isAxiosError(error)) {
+                console.log("Error in deleting note!", error)
+                toast.error("Failed to delete note!")
+            }
+        }
+    }
 
     return (
         <AppLayout
@@ -45,10 +65,12 @@ const Notes = () => {
             {notes.map(note => (
                 <NoteCard
                 key={note._id}
+                _id={note._id}
                 title={note.title}
                 content={note.content}
                 updatedAt={note.updatedAt}
                 icon={note.icon}
+                handleDelete={handleDelete}
                 />
             ))}
 
