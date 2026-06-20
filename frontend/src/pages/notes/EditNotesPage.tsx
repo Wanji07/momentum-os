@@ -13,7 +13,7 @@ interface NoteProps {
     title: string
     content: string
     updatedAt: string
-    icon?: string
+    icon: string
 }
 
 const EditNotesPage = () => {
@@ -138,7 +138,7 @@ const EditNotesPage = () => {
 
                                     <div className="card-actions justify-end">
                                         <button type="submit" className="btn btn-soft" disabled={loading}>
-                                            {loading ? "Creating..." : "Create Note"}
+                                            {loading ? "Creating..." : "Update Note"}
                                         </button>
                                     </div>
                                 </form>

@@ -1,4 +1,4 @@
-
+import { Link } from 'react-router'
 
 interface NoteCardProps {
     _id: string
@@ -33,8 +33,8 @@ const NoteCard = ({
                     <p className="text-md font-semibold opacity-80">{updatedAt}</p>
                 </div>
                 <div className="card-actions">
-                    <button type="button" className="btn btn-soft btn-warning cursor-pointer">View</button>
-                    <button type="button" className="btn btn-soft btn-info cursor-pointer">Edit</button>
+                    <Link to={`/notes/${_id}`}type="button" className="btn btn-soft btn-warning cursor-pointer">View</Link>
+                    <Link to={`/notes/${_id}/edit`}type="button" className="btn btn-soft btn-info cursor-pointer">Edit</Link>
                     <button type="button" 
                     onClick={(e) => {
                         handleDelete(_id, e)

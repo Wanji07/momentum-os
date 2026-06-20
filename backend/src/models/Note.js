@@ -18,11 +18,6 @@ const noteSchema = new mongoose.Schema({
     //     required: true
     // },
 
-    tags: {
-        type: [String],
-        default: []
-    },
-
     icon: {
         type: String,
         required: true

@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react'
-import { useParams, Link } from 'react-router'
+import { useParams, useNavigate, Link } from 'react-router'
 
 import AppLayout from '../../layouts/AppLayout'
 import { ArrowLeftIcon } from 'lucide-react'
 import api from '../../lib/axios'
 import toast from 'react-hot-toast'
+import axios from 'axios'
 
 interface NoteProps {
     _id: string
@@ -19,7 +20,7 @@ const ViewNotesPage = () => {
     const [note, setNote] = useState<NoteProps | null>(null)
     const [loading, setLoading] = useState(true)
 
-    // const navigate = useNavigate()
+    const navigate = useNavigate()
 
     const { id } = useParams()
 
@@ -40,6 +41,25 @@ const ViewNotesPage = () => {
         fetchNote()
 
     }, [id])
+
+    const handleDelete = async(id: string, e: React.MouseEvent<HTMLButtonElement>) => {
+
+        if (!window.confirm("Are you sure you want to delete this note?")) return;
+
+        e.preventDefault()
+        e.stopPropagation()
+
+        try {
+            await api.delete(`/notes/${id}`)
+            toast.success("Successfully deleted note!")
+            navigate("/notes")
+        } catch (error) {
+            if (axios.isAxiosError(error)) {
+                console.log("Error in deleting note!", error)
+                toast.error("Failed to delete note!")
+            }
+        }
+    }
 
     if (loading || !note) {
         return(
@@ -71,8 +91,11 @@ const ViewNotesPage = () => {
                                     <p className="text-md font-semibold opacity-80">{note.updatedAt}</p>
                                 </div>
                                 <div className="card-actions flex">
-                                    <button type="button" className="btn btn-soft btn-info cursor-pointer">Edit</button>
-                                    <button type="button" className="btn btn-soft btn-error cursor-pointer">Delete</button>
+                                    <Link to={`/notes/${id}/edit`}type="button" className="btn btn-soft btn-info cursor-pointer">Edit</Link>
+                                    <button type="button" 
+                                    onClick={(e) => {handleDelete(note._id, e)}}
+                                    className="btn btn-soft btn-error cursor-pointer"
+                                    >Delete</button>
                                 </div>
                             </div>
                         </div>
