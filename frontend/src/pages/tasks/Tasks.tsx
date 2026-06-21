@@ -9,8 +9,7 @@ interface TasksProps {
     title: string,
     description: string,
     priority: "low" | "medium" | "high",
-    // completed: boolean,
-    // dueDate: Date
+    dueDate: string
 }
 
 const Tasks = () => {
@@ -38,6 +37,7 @@ const Tasks = () => {
         showSearch={true}
         searchContent="Tasks"
         actionLabel="Create Task"
+        url="/tasks/create"
         >
             <div className="container max-w-screen grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
                 
@@ -47,6 +47,7 @@ const Tasks = () => {
                     title={task.title}
                     description={task.description}
                     priority={task.priority}
+                    dueDate={task.dueDate}
                     />
                 ))}
             </div>

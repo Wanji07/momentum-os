@@ -8,6 +8,8 @@ import EditNotesPage from "./pages/notes/EditNotesPage"
 
 
 import Tasks from "./pages/tasks/Tasks"
+import CreateTasksPage from "./pages/tasks/CreateTasksPage"
+
 import Settings from './pages/Settings'
 
 const App = () => {
@@ -23,6 +25,7 @@ const App = () => {
           <Route path="/notes/:id/edit" element={<EditNotesPage />} />
 
           <Route path="/tasks" element={<Tasks />} />
+          <Route path="/tasks/create" element={<CreateTasksPage />} />
           <Route path="/settings" element={<Settings />} />
         </Routes>
       </div>

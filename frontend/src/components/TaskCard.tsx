@@ -4,16 +4,15 @@ interface TaskCardProps {
     title: string,
     description: string,
     priority: "low" | "medium" | "high",
-    // completed?: boolean,
-    // dueDate?: Date
+    completed?: boolean,
+    dueDate: string
 }
 
 const TaskCard = ({
     title,
     description,
     priority,
-    // completed,
-    // dueDate
+    dueDate
 }:TaskCardProps) => {
 
     const priorityDotColor = {
@@ -37,7 +36,7 @@ const TaskCard = ({
                     </div>
                     <h2 className="text-md font-medium">{description}</h2> 
                     <div className="task-misc flex flex-row gap-5 items-center">
-                        <p className="text-sm shrink-0 font-semibold">📅 Due Today</p>
+                        <p className="text-sm shrink-0 font-semibold">📅 {dueDate}</p>
                         <PriorityBadge
                         priority={priority}
                         />
