@@ -21,7 +21,7 @@ const ViewTasksPage = () => {
     const [task, setTask] = useState<TaskProps | null>(null)
     const [loading, setLoading] = useState(true)
     const { id } = useParams()
-
+ 
     const priorityDotColor = {
         high: "status-error",
         medium: "status-warning",

@@ -2,10 +2,23 @@ import Task from "../models/Task.js";
 
 export async function getAllTasks(_, res) {
     try {
-        const tasks = await Task.find().sort({ createdAt: -1 });
+        const tasks = await Task.find().find({ completed: false }).sort({ createdAt: -1 });
         res.status(200).json(tasks);
     } catch (error) {
         console.error("Error in getAllTasks controller:", error);
+        
+        res.status(500).json({
+            message: "Internal Server error!"
+        });
+    }
+}
+
+export async function getCompletedTasks(_, res) {
+    try {
+        const completedTasks = await Task.find({ completed: true }).sort({ createdAt: -1 });
+        res.status(200).json(completedTasks);
+    } catch (error) {
+        console.error("Error in getCompletedTasks controller:", error);
         
         res.status(500).json({
             message: "Internal Server error!"
@@ -51,10 +64,10 @@ export async function createTask(req, res) {
 
 export async function updateTask(req, res) {
     try {
-        const { title, description, priority, completed, dueDate } = req.body;
+        const { title, description, priority, dueDate, completed } = req.body;
         const updatedTask = await Task.findByIdAndUpdate(
             req.params.id,
-            {title, description, priority, completed, dueDate},
+            {title, description, priority, dueDate, completed},
             {
                 returnDocument: "after"
             }

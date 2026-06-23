@@ -1,18 +1,25 @@
 import PriorityBadge from "./PriorityBadge"
 
 interface TaskCardProps {
+    _id: string
     title: string,
     description: string,
     priority: "low" | "medium" | "high",
     completed?: boolean,
     dueDate: string
+    handleComplete: (
+        id: string,
+        e: React.MouseEvent<HTMLButtonElement>
+    ) => void
 }
 
 const TaskCard = ({
     title,
     description,
     priority,
-    dueDate
+    dueDate,
+    _id,
+    handleComplete
 }:TaskCardProps) => {
 
     const priorityDotColor = {
@@ -20,6 +27,7 @@ const TaskCard = ({
         medium: "status-warning",
         low: "status-success"
     }
+
 
     return (
         <div className="container relative card bg-base-200/30 w-full card-lg overflow-hidden">
@@ -45,7 +53,11 @@ const TaskCard = ({
                 <div className="card-actions">
                     <button type="button" className="btn btn-soft btn-warning cursor-pointer">View</button>
                     <button type="button" className="btn btn-soft btn-info cursor-pointer">Edit</button>
-                    <button type="button" className="btn btn-soft btn-success cursor-pointer">Complete</button>
+                    <button type="button" 
+                    onClick={(e) => {
+                        handleComplete(_id, e)
+                    }} 
+                    className="btn btn-soft btn-success cursor-pointer">Complete</button>
                     <button type="button" className="btn btn-soft btn-error cursor-pointer">Delete</button>
                 </div>
             </div>
