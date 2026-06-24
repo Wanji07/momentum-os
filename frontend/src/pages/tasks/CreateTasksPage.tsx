@@ -116,7 +116,7 @@ const CreateTasksPage = () => {
 
                                     <div className='form-control mb-4 flex flex-col items-start gap-3'>
                                         <label className="label">
-                                            <span className="label-text">Description</span>
+                                            <span className="label-text">Due Date</span>
                                         </label>
                                         <input
                                         type="date"

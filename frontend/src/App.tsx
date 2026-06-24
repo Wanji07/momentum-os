@@ -10,6 +10,7 @@ import EditNotesPage from "./pages/notes/EditNotesPage"
 import Tasks from "./pages/tasks/Tasks"
 import ViewTasksPage from "./pages/tasks/ViewTasksPage"
 import CreateTasksPage from "./pages/tasks/CreateTasksPage"
+import EditTasksPage from "./pages/tasks/EditTasksPage"
 
 import Settings from './pages/Settings'
 
@@ -22,12 +23,15 @@ const App = () => {
           
           <Route path="/notes" element={<Notes />} />
           <Route path="/notes/:id" element={<ViewNotesPage />} />
-          <Route path="/notes/create" element={<CreateNotesPage />} />
           <Route path="/notes/:id/edit" element={<EditNotesPage />} />
+          <Route path="/notes/create" element={<CreateNotesPage />} />
+
 
           <Route path="/tasks" element={<Tasks />} />
           <Route path="/tasks/:id" element={<ViewTasksPage />} />
+          <Route path="/tasks/:id/edit" element={<EditTasksPage />} />
           <Route path="/tasks/create" element={<CreateTasksPage />} />
+
           <Route path="/settings" element={<Settings />} />
         </Routes>
       </div>
