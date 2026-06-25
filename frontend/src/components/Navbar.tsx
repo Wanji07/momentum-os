@@ -1,21 +1,16 @@
 
-import { SearchIcon } from "lucide-react";
 import { PanelRightClose } from "lucide-react";
 import { Link } from "react-router";
 
 interface NavbarProps {
     title: string,
     actionLabel?: string;
-    searchContent?: string,
-    showSearch?: boolean,
     url?: string
 }
 
 const Navbar = ({
     title,
     actionLabel,
-    showSearch,
-    searchContent,
     url
 }: NavbarProps) => {
 
@@ -34,8 +29,8 @@ const Navbar = ({
                 <a className="text-2xl font-semibold tracking-wider">{title}</a>
             </div>
             <div className="flex gap-3">
+                {/* Search UI disabled for now. Re-enable this block when search is needed again.
                 {showSearch && (
-
                     <label className="input input-bordered flex flex-row items-center">
                         <SearchIcon
                             size={18}
@@ -44,13 +39,13 @@ const Navbar = ({
                         <div className="w-px h-5 bg-base-300"></div>
 
                         <input
-                            type="text" 
-                            placeholder={`Search ${searchContent}`} 
+                            type="text"
+                            placeholder={`Search ${searchContent}`}
                             className="w-auto"
                         />
-
                     </label>
                 )}
+                */}
                 {actionLabel && url && (
                     <Link to={url} type="button" className="btn btn-soft">{actionLabel}</Link>
                 )}

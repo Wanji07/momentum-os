@@ -6,13 +6,140 @@ import StatCard from "../components/StatCard"
 import ListWidget from "../components/ListWidget"
 import { Link } from "react-router"
 
+import { useEffect, useState } from 'react'
+import axios from 'axios'
+import api from "../lib/axios"
+import toast from "react-hot-toast"
+
+interface GeneralProps {
+    _id: string,
+    title: string,
+    description: string,
+    priority: "low" | "medium" | "high",
+    dueDate: string,
+    completed: boolean
+    content: string,
+    updatedAt: string,
+    icon?: string,
+    url: string
+}
 
 const Dashboard = () => {
+
+    const [tasks, setTasks] = useState<GeneralProps[]>([])
+    const [notes, setNotes] = useState<GeneralProps[]>([])
+
+    useEffect(() => {
+
+        const fetchNotes = async() => {
+            try {
+                const res = await api.get("/notes")
+                console.log("Notes fetched: ", res.data)
+                setNotes(res.data)
+            } catch (error) {
+                if (axios.isAxiosError(error)) {
+                    if (error.response?.status === 429) {
+                        toast.error("You are requesting note data too fast!", {
+                            duration: 4000
+                        })
+                    } else {
+                        toast.error("Failed to fetch note data!")
+                        console.log("Error in fetching note data: ", error)
+                    }
+                } else {
+                    toast.error("Something went wrong")
+                    console.log("Unexpected Error: ", error)
+                }
+            }
+        }
+
+        const fetchTasks = async() => {
+            try {
+                const res = await api.get("/tasks")
+                console.log("Tasks fetched: ", res.data)
+                setTasks(res.data)
+            } catch (error) {
+                if (axios.isAxiosError(error)) {
+                    if (error.response?.status === 429) {
+                        toast.error("You are requesting task data too fast!", {
+                            duration: 4000
+                        })
+                    } else {
+                        toast.error("Failed to fetch task data!")
+                        console.log("Error in fetching task data: ", error)
+                    }
+                } else {
+                    toast.error("Something went wrong")
+                    console.log("Unexpected Error: ", error)
+                }
+            }
+        }
+
+        fetchNotes()
+        fetchTasks()
+    }, [])
+
+            const handleDeleteNotes = async(_id: string, e: React.MouseEvent<HTMLButtonElement>) => {
+            
+            if (!window.confirm("Are you sure you want to delete this task?")) return
+
+            e.preventDefault()
+            e.stopPropagation()
+
+            try {
+                await api.delete(`/notes/${_id}`)
+                setNotes((prev) => prev.filter((note) => note._id !== _id))
+                toast.success("Successfully deleted note!")
+
+            } catch (error) {
+                if (axios.isAxiosError(error)) {
+                    if (error.response?.status === 429) {
+                        toast.error('You are deleting too fast!', {
+                            duration: 4000
+                        })
+                    } else {
+                        toast.error("Failed to delete task!")
+                        console.log("Error in deleting task:", error)
+                    }
+                } else {
+                    toast.error('Something went wrong!')
+                    console.log('Unexpected Error:', error)
+                }
+            }
+        }
+
+            const handleDeleteTask = async(_id: string, e: React.MouseEvent<HTMLButtonElement>) => {
+            
+            if (!window.confirm("Are you sure you want to delete this task?")) return
+
+            e.preventDefault()
+            e.stopPropagation()
+
+            try {
+                await api.delete(`/tasks/${_id}`)
+                setTasks((prev) => prev.filter((task) => task._id !== _id))
+                toast.success("Successfully deleted note!")
+            } catch (error) {
+                if (axios.isAxiosError(error)) {
+                    if (error.response?.status === 429) {
+                        toast.error('You are deleting too fast!', {
+                            duration: 4000
+                        })
+                    } else {
+                        toast.error("Failed to delete task!")
+                        console.log("Error in deleting task:", error)
+                    }
+                } else {
+                    toast.error('Something went wrong!')
+                    console.log('Unexpected Error:', error)
+                }
+            }
+        }
+
     return (
         <>
             <AppLayout
             title="Dashboard"
-            showSearch={false}
             >
             <div className="container max-w-screen max-h-15 flex flex-col">
                 <div className="hero w-full">
@@ -29,19 +156,13 @@ const Dashboard = () => {
                             <StatCard
                             title="Notes"
                             icon="📝"
-                            value="0 Total Notes"
+                            value={`${notes.length} Total Notes`} 
 
                             />
                             <StatCard
                             title="Tasks"
                             icon="✅"
-                            value="0 Total Tasks"
-                            />
-
-                            <StatCard
-                            title="Streak"
-                            icon="🔥"
-                            value="12 Days"
+                            value={`${tasks.length} Total Tasks`} 
                             />
                     </div>
                 </section>
@@ -50,25 +171,23 @@ const Dashboard = () => {
                         <div className="card-body">
                             <h1 className="card-title">📝 Recent Notes</h1>
                                 <ul className="list bg-base-200/20 rounded-box shadow-md">
-                                    <ListWidget
-                                    title="React Props"
-                                    timestamp="1 hour ago"
-                                    />
-                                    <ListWidget
-                                    title="Typescript Interfaces"
-                                    timestamp="8 hours ago"
-                                    />
-                                    <ListWidget 
-                                    title="MongoDB Class Notes"
-                                    timestamp="1 day ago"
-                                    />
+
+                                    {notes.slice(0,3).map(note => (
+                                        <ListWidget
+                                        _id={note._id}
+                                        title={note.title}
+                                        timestamp={note.updatedAt}
+                                        handleDelete={handleDeleteNotes}
+                                        />
+                                    ))}
+
                                     <li className="list-row flex flex-row items-center justify-center bg-base-100/30 relative h-10">
-                                        <button className="btn btn-ghost w-full">
+                                        <Link to="/notes" className="btn btn-ghost w-full">
                                             <div className="list-title tracking-wider font-semibold">View All</div>
                                             <ChevronRight
                                             size={18} 
                                             />
-                                        </button>
+                                        </Link>
                                     </li>
                                 </ul>
                         </div>
@@ -77,25 +196,23 @@ const Dashboard = () => {
                         <div className="card-body">
                             <h1 className="card-title">✅ Today's Tasks</h1>
                                 <ul className="list bg-base-200/20 rounded-box shadow-md">
-                                    <ListWidget
-                                    title="Build Recent Notes Widget"
-                                    timestamp="2 hours ago"
-                                    />
-                                    <ListWidget
-                                    title="Refactor Dashboard Components"
-                                    timestamp="Yesterday"
-                                    />
-                                    <ListWidget 
-                                    title="Review React TypeScript Interfaces"
-                                    timestamp="2 days ago"
-                                    />
+
+                                    {tasks.slice(0, 3).map(task => (
+                                        <ListWidget
+                                        _id={task._id}
+                                        title={task.title}
+                                        timestamp={task.updatedAt}
+                                        handleDelete={handleDeleteTask}
+                                        />
+                                    ))}
+                                    
                                     <li className="list-row flex flex-row items-center justify-center bg-base-100/30 relative h-10">
-                                        <button className="btn btn-ghost w-full">
+                                        <Link to="/tasks" className="btn btn-ghost w-full">
                                             <div className="list-title tracking-wider font-semibold">View All</div>
                                             <ChevronRight
                                             size={18} 
                                             />
-                                        </button>
+                                        </Link>
                                     </li>
                                 </ul>
                         </div>
@@ -118,7 +235,7 @@ const Dashboard = () => {
                                 className="btn btn-soft p-6">Create Notes</Link>
 
                                 <Link
-                                to="/"
+                                to="/tasks/create"
                                 className="btn btn-soft p-6">Create Tasks</Link>
 
                             </div>

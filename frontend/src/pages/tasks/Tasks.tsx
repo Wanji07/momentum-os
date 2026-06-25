@@ -116,8 +116,8 @@ const Tasks = () => {
     return (
         <AppLayout
         title="Tasks"
-        showSearch={true}
-        searchContent="Tasks"
+        // showSearch={true}
+        // searchContent="Tasks"
         actionLabel="Create Task"
         url="/tasks/create"
         >

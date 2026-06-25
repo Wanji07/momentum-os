@@ -55,8 +55,8 @@ const Notes = () => {
     return (
         <AppLayout
         title="Notes"
-        showSearch={true}
-        searchContent="Notes"
+        // showSearch={true}
+        // searchContent="Notes"
         actionLabel="Create Note"
         url="/notes/create"
         >

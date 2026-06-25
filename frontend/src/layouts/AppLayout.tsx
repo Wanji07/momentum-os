@@ -7,8 +7,8 @@ import { Link } from 'react-router'
 interface AppLayoutProps {
     children: React.ReactNode,
     title: string,
-    showSearch?: boolean,
-    searchContent?: string,
+    // showSearch?: boolean,
+    // searchContent?: string,
     actionLabel?: string,
     url?: string
 }
@@ -16,8 +16,8 @@ interface AppLayoutProps {
 const AppLayout = ({
     children,
     title,
-    showSearch,
-    searchContent,
+    // showSearch,
+    // searchContent,
     actionLabel,
     url
 }: AppLayoutProps) => {
@@ -29,9 +29,9 @@ const AppLayout = ({
 
                 <Navbar
                 title={title}
-                showSearch={showSearch}
+                // showSearch={showSearch}
+                // searchContent={searchContent}
                 actionLabel={actionLabel}
-                searchContent={searchContent}
                 url={url}
                 />
 
