@@ -10,7 +10,12 @@ const Settings = () => {
         >
         <div className="container flex flex-col items-center justify-center gap-5">
             <SettingsCard title="👤 Profile">
-                <div role="avatar" className="avatar flex flex-row items-center gap-3 mt-3">
+                <div className="card card-xl">
+                    <div className="card-body">
+                        <h1 className="text-2xl font-bold btn btn-soft">COMING SOON!</h1>
+                    </div>
+                </div>
+                {/* <div role="avatar" className="avatar flex flex-row items-center gap-3 mt-3">
                     <div className="w-12 rounded-full">
                     <img
                         alt="Profile Picture"
@@ -24,10 +29,15 @@ const Settings = () => {
                     </Link>
                 </div>
                 <h1 className="text-xl font-semibold tracking-wide">Username: Wanji</h1>
-                <h1 className="text-lg font-semibold tracking-wide">Email: ewilliammiguel@gmail.com</h1>
+                <h1 className="text-lg font-semibold tracking-wide">Email: ewilliammiguel@gmail.com</h1> */}
             </SettingsCard>
             <SettingsCard title="🎨 Theme">
-                <p className="text-lg font-semibold mb-4 mt-3">
+                <div className="card card-xl">
+                    <div className="card-body">
+                        <h1 className="text-2xl font-bold btn btn-soft">COMING SOON!</h1>
+                    </div>
+                </div>
+                {/* <p className="text-lg font-semibold mb-4 mt-3">
                     Current Theme: Luxury
                 </p>
 
@@ -61,7 +71,7 @@ const Settings = () => {
                         />
                         <span className="text-lg font-semibold tracking-wide">Dark</span>
                     </label>
-                </div>
+                </div> */}
             </SettingsCard>
             <SettingsCard title="🦅 About MomentumOS">
                 <div className="flex flex-col gap-3 mt-3">
