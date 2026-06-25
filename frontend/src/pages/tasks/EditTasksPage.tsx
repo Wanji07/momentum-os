@@ -3,10 +3,11 @@ import AppLayout from '../../layouts/AppLayout'
 import { useEffect, useState } from 'react'
 import type { FormEvent } from 'react'
 
-import { useParams, useNavigate } from 'react-router'
+import { useParams, useNavigate, Link } from 'react-router'
 import axios from 'axios'
 import api from '../../lib/axios'
 import toast from 'react-hot-toast'
+import { ArrowLeftIcon } from 'lucide-react'
 
 interface TasksProps {
     _id: string
@@ -106,7 +107,11 @@ const EditTasksPage = () => {
             <div className="min-h-screen bg-base-100">
                 <div className="container px-4 py-8">
                     <div className="max-w-2xl mx-auto">
-                        <div className="card card-xl">
+                        <Link to="/tasks" type="button" className="btn btn-soft mb-6 max-w-50">
+                        <ArrowLeftIcon className="size-5" />
+                        Back to Tasks
+                        </Link>
+                        <div className="card card-xl bg-base-200">
                             <div className="card-body flex flex-col gap-5">
                                     <form onSubmit={handleSubmit}>
                                         <div className='form-control mb-4 flex flex-col items-start gap-3'>

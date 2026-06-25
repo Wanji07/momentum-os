@@ -1,4 +1,5 @@
 import PriorityBadge from "./PriorityBadge"
+import { Link } from 'react-router'
 
 interface TaskCardProps {
     _id: string
@@ -8,7 +9,11 @@ interface TaskCardProps {
     completed?: boolean,
     dueDate: string
     handleComplete: (
-        id: string,
+        _id: string,
+        e: React.MouseEvent<HTMLButtonElement>
+    ) => void
+    handleDelete: (
+        _id: string,
         e: React.MouseEvent<HTMLButtonElement>
     ) => void
 }
@@ -19,7 +24,8 @@ const TaskCard = ({
     priority,
     dueDate,
     _id,
-    handleComplete
+    handleComplete,
+    handleDelete
 }:TaskCardProps) => {
 
     const priorityDotColor = {
@@ -51,14 +57,18 @@ const TaskCard = ({
                     </div>
                 </div>
                 <div className="card-actions">
-                    <button type="button" className="btn btn-soft btn-warning cursor-pointer">View</button>
-                    <button type="button" className="btn btn-soft btn-info cursor-pointer">Edit</button>
+                    <Link to={`/tasks/${_id}`} type="button" className="btn btn-soft btn-warning cursor-pointer">View</Link>
+                    <Link to={`/tasks/${_id}/edit`} type="button" className="btn btn-soft btn-info cursor-pointer">Edit</Link>
                     <button type="button" 
+                    className="btn btn-soft btn-success cursor-pointer"
                     onClick={(e) => {
                         handleComplete(_id, e)
-                    }} 
-                    className="btn btn-soft btn-success cursor-pointer">Complete</button>
-                    <button type="button" className="btn btn-soft btn-error cursor-pointer">Delete</button>
+                    }}> Complete</button>
+                    <button type="button" 
+                    className="btn btn-soft btn-error cursor-pointer"
+                    onClick={(e) => {
+                        handleDelete(_id, e)
+                    }}>Delete</button>
                 </div>
             </div>
         </div>

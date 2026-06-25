@@ -4,6 +4,7 @@ import TaskCard from "../../components/TaskCard"
 import CompletedTaskCard from "../../components/CompletedTaskCard"
 
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router'
 import api from "../../lib/axios"
 import axios from 'axios'
 import toast from 'react-hot-toast'
@@ -15,12 +16,13 @@ interface TasksProps {
     description: string,
     priority: "low" | "medium" | "high",
     dueDate: string,
-    completed: false
+    completed: boolean
 }
 
 const Tasks = () => {
 
     const [tasks, setTasks] = useState<TasksProps[]>([])
+    const navigate = useNavigate()
     const [completedTasks, setCompletedTasks] = useState<TasksProps[]>([])
 
     useEffect(() => {
@@ -56,9 +58,12 @@ const Tasks = () => {
         e.stopPropagation()
         
         try {
-            await api.put(`/tasks/${_id}`, {
+            const res = await api.put(`/tasks/${_id}`, {
                 completed: true
             })
+            setTasks((prev) => prev.filter(tasks => tasks._id !== _id))
+            setCompletedTasks(prev => [...prev, res.data])
+            
         } catch (error) {
             if (axios.isAxiosError(error)) {
                 if (error.response?.status === 429) {
@@ -75,6 +80,37 @@ const Tasks = () => {
             }
         }
     }
+        const handleDelete = async(_id: string, e: React.MouseEvent<HTMLButtonElement>) => {
+            
+            if (!window.confirm("Are you sure you want to delete this task?")) return
+
+            e.preventDefault()
+            e.stopPropagation()
+
+            try {
+                
+                await api.delete(`/tasks/${_id}`)
+                setTasks((prev) => prev.filter(tasks => tasks._id !== _id))
+                toast.success("Successfully deleted note!")
+                navigate("/tasks")
+
+            } catch (error) {
+                if (axios.isAxiosError(error)) {
+                    if (error.response?.status === 429) {
+                        toast.error('You are deleting too fast!', {
+                            duration: 4000
+                        })
+                    } else {
+                        toast.error("Failed to delete task!")
+                        console.log("Error in deleting task:", error)
+                    }
+                } else {
+                    toast.error('Something went wrong!')
+                    console.log('Unexpected Error:', error)
+                }
+            }
+        }
+
 
 
     return (
@@ -96,10 +132,12 @@ const Tasks = () => {
                         priority={task.priority}
                         dueDate={task.dueDate}
                         handleComplete={handleComplete}
+                        handleDelete={handleDelete}
                         />
                     ))}
                 </div>
 
+                {}
                 <div className="divider opacity-50">Completed Tasks</div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">

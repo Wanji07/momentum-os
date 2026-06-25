@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useParams, Link } from 'react-router'
+import { useParams, Link, useNavigate } from 'react-router'
 import axios from 'axios'
 import toast from 'react-hot-toast'
 import { ArrowLeftIcon } from 'lucide-react'
@@ -13,6 +13,14 @@ interface TaskProps {
     description: string,
     priority: "high" | "medium" | "low",
     dueDate: string
+    handleComplete: (
+        _id: string,
+        e: React.MouseEvent<HTMLButtonElement>
+    ) => void
+    handleDelete: (
+        _id: string,
+        e: React.MouseEvent<HTMLButtonElement>
+    ) => void
 }
 
 const ViewTasksPage = () => {
@@ -21,6 +29,7 @@ const ViewTasksPage = () => {
     const [task, setTask] = useState<TaskProps | null>(null)
     const [loading, setLoading] = useState(true)
     const { id } = useParams()
+    const navigate = useNavigate()
 
     const priorityDotColor = {
         high: "status-error",
@@ -55,6 +64,61 @@ const ViewTasksPage = () => {
         fetchTask()
 
     }, [id])
+
+        const handleComplete = async(_id: string, e: React.MouseEvent<HTMLButtonElement>) => {
+        
+        if (!window.confirm("Are you sure you want to complete this note?")) return;
+
+        e.preventDefault()
+        e.stopPropagation()
+        
+        try {
+            await api.put(`/tasks/${_id}`, {
+                completed: true
+            })
+            navigate("/tasks")
+        } catch (error) {
+            if (axios.isAxiosError(error)) {
+                if (error.response?.status === 429) {
+                    toast.error("You are requesting too fast!", {
+                        duration: 4000
+                    })
+                } else {
+                    toast.error("Failed to complete task!")
+                    console.log("Error in completing task:", error)
+                }
+            } else {
+                toast.error("Something went wrong!")
+                console.log("Unexpected Error:", error)
+            }
+        }
+    }
+        const handleDelete = async(_id: string, e: React.MouseEvent<HTMLButtonElement>) => {
+            
+            if (!window.confirm("Are you sure you want to delete this task?")) return
+
+            e.preventDefault()
+            e.stopPropagation()
+
+            try {
+                await api.delete(`/tasks/${_id}`)
+                navigate("/tasks")
+            } catch (error) {
+                if (axios.isAxiosError(error)) {
+                    if (error.response?.status === 429) {
+                        toast.error('You are deleting too fast!', {
+                            duration: 4000
+                        })
+                    } else {
+                        toast.error("Failed to delete task!")
+                        console.log("Error in deleting task:", error)
+                    }
+                } else {
+                    toast.error('Something went wrong!')
+                    console.log('Unexpected Error:', error)
+                }
+            }
+        }
 
     if (loading || !task) {
         return(
@@ -95,8 +159,12 @@ const ViewTasksPage = () => {
                             </div>
                             <div className="card-actions">
                                 <button type="button" className="btn btn-soft btn-info cursor-pointer">Edit</button>
-                                <button type="button" className="btn btn-soft btn-success cursor-pointer">Complete</button>
-                                <button type="button" className="btn btn-soft btn-error cursor-pointer">Delete</button>
+                                <button type="button" 
+                                className="btn btn-soft btn-success cursor-pointer"
+                                onClick={(e) => handleComplete(task._id, e)}> Complete</button>
+                                <button type="button" 
+                                className="btn btn-soft btn-error cursor-pointer"
+                                onClick={(e) => handleDelete(task._id, e )}>Delete</button>
                             </div>
                         </div>
                     </div>
