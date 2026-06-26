@@ -16,7 +16,7 @@ const Settings = () => {
                     </div>
                 </div>
                 {/* <div role="avatar" className="avatar flex flex-row items-center gap-3 mt-3">
-                    <div className="w-12 rounded-full">
+                    <div className="w-14 rounded-full">
                     <img
                         alt="Profile Picture"
                         src="https://i.pinimg.com/1200x/c6/d2/c1/c6d2c1df5d9999d93fd91951714e40bd.jpg" />
