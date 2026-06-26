@@ -16,8 +16,6 @@ interface AppLayoutProps {
 const AppLayout = ({
     children,
     title,
-    // showSearch,
-    // searchContent,
     actionLabel,
     url
 }: AppLayoutProps) => {
@@ -29,13 +27,10 @@ const AppLayout = ({
 
                 <Navbar
                 title={title}
-                // showSearch={showSearch}
-                // searchContent={searchContent}
                 actionLabel={actionLabel}
                 url={url}
                 />
 
-                {/* Page content here */}
                 <div className="p-4">
                     {children}
                 </div>
