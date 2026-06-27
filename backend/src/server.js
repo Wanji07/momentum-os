@@ -1,6 +1,7 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
+import path from 'path'
 
 import { connectDB } from './config/db.js';
 import { healthCheck } from './controllers/healthCheck.js';
@@ -25,10 +26,13 @@ app.use((req, res, next) => {
 });
 
 const PORT = process.env.PORT || 5001;
+const __DIRNAME = path.resolve()
 
-app.use(cors({
-    origin: "http://localhost:5173",
-}))
+if (process.env.NODE_ENV !== "production") {
+    app.use(cors({
+        origin: "http://localhost:5173",
+    }))
+}
 
 app.use(express.json());
 
@@ -39,6 +43,14 @@ app.get("/api/health", healthCheck);
 app.use("/api/notes", notesRoutes);
 app.use("/api/tasks", taskRoutes);
 app.use("/api/users", userRoutes);
+
+if (process.env.NODE_ENV === "production" ) {
+    app.use(express.static(path.join(__DIRNAME, "../frontend/dist")))
+
+    app.get("*", (req, res) => {
+        res.sendFile(path.join(__DIRNAME, "../frontend", "dist", "index.html"))
+    })
+}
 
 connectDB().then(() => {
     app.listen(PORT, () => {
