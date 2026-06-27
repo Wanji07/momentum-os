@@ -2,6 +2,10 @@ import { useState, useEffect } from 'react'
 
 import AppLayout from "../../layouts/AppLayout"
 import NoteCard from "../../components/NoteCard"
+
+import AureoTip from '../../assets/Aureo/AureoTip.png'
+
+import { Link } from 'react-router'
 import api from "../../lib/axios"
 import axios from 'axios'
 import toast from 'react-hot-toast'
@@ -61,6 +65,36 @@ const Notes = () => {
             </div>
         )
     }
+
+    if (notes.length === 0) {
+        return(
+            <AppLayout
+            title="Notes"
+            actionLabel="Create Note"
+            url="/notes/create"
+            >
+                
+                    <div className="bg-base-100 flex items-center justify-center">
+                        <div className="container px-4 py-8">
+                            <div className='max-w-2xl mx-auto'>
+                                <div className="card card-xl border-2 border-dashed border-yellow-500/20">
+                                    <div className="card-body flex flex-col items-center">
+                                        <div className="card-title flex flex-row gap-2 items-center justify-center">
+                                            <img src={AureoTip} className="size-15"/>
+                                            <h1 className="tracking-wide font-semibold">You don't have any notes yet!</h1>
+                                        </div>
+                                        <p className="font-medium tracking-wide">Start building momentum today.</p>
+                                        <Link to="/tasks/create" className="btn btn-soft px-10 mt-5">Create Note</Link>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                
+            </AppLayout>
+        )
+    }
+
 
     return (
         <AppLayout

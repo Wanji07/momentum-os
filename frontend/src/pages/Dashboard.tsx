@@ -191,14 +191,25 @@ const Dashboard = () => {
                                         />
                                     ))}
 
-                                    <li className="list-row flex flex-row items-center justify-center bg-base-100/30 relative h-10">
+                                    {notes.length === 0 ? (
+                                        <div className="card card-xl border-2 border-dashed border-yellow-500/20">
+                                            <div className="card-body flex flex-col items-center">
+                                                <div className="card-title flex flex-row gap-2 items-center justify-center">
+                                                    <img src={AureoTip} className="size-15"/>
+                                                    <h1 className="tracking-wide font-semibold">You don't have any notes yet!</h1>
+                                                </div>
+                                                <p className="font-medium tracking-wide">Start building momentum today.</p>
+                                                <Link to="/notes/create" className="btn btn-soft px-10 mt-5">Create Note</Link>
+                                            </div>
+                                        </div>
+                                    ): (
                                         <Link to="/notes" className="btn btn-ghost w-full">
                                             <div className="list-title tracking-wider font-semibold">View All</div>
                                             <ChevronRight
                                             size={18} 
                                             />
                                         </Link>
-                                    </li>
+                                    )}
                                 </ul>
                         </div>
                     </div>
@@ -215,43 +226,31 @@ const Dashboard = () => {
                                         handleDelete={handleDeleteTask}
                                         />
                                     ))}
-                                    
-                                    <li className="list-row flex flex-row items-center justify-center bg-base-100/30 relative h-10">
+
+                                    {tasks.length === 0 ? (
+                                        <div className="card card-xl border-2 border-dashed border-yellow-500/20">
+                                            <div className="card-body flex flex-col items-center">
+                                                <div className="card-title flex flex-row gap-2 items-center justify-center">
+                                                    <img src={AureoTip} className="size-15"/>
+                                                    <h1 className="tracking-wide font-semibold">You don't have any tasks yet!</h1>
+                                                </div>
+                                                <p className="font-medium tracking-wide">Start building momentum today.</p>
+                                                <Link to="/tasks/create" className="btn btn-soft px-10 mt-5">Create Task</Link>
+                                            </div>
+                                        </div>
+                                    ): (
                                         <Link to="/tasks" className="btn btn-ghost w-full">
                                             <div className="list-title tracking-wider font-semibold">View All</div>
                                             <ChevronRight
                                             size={18} 
                                             />
                                         </Link>
-                                    </li>
+                                    )}
+                                    
                                 </ul>
                         </div>
                     </div>
                 </section>
-                <footer className="card bg-base-200/40 w-max m-auto my-5">
-                    <div className="card-body flex flex-row items-center justify-start gap-5">
-                        <img
-                        src={AureoTip} 
-                        className="size-24"
-                        />
-                        <div className="flex flex-col gap-4">
-                            <div className="flex flex-col gap-1">
-                                <h1 className="tracking-wide text-lg opacity-75 font-semibold">Quick Actions</h1>
-                                <p className="text-md">Need something new? Start here.</p>
-                            </div>
-                            <div className="btn-group flex flex-row gap-5 ">
-                                <Link
-                                to="/notes/create"
-                                className="btn btn-soft p-6">Create Notes</Link>
-
-                                <Link
-                                to="/tasks/create"
-                                className="btn btn-soft p-6">Create Tasks</Link>
-
-                            </div>
-                        </div>
-                    </div>
-                </footer>
             </div>
             </AppLayout>
         </>

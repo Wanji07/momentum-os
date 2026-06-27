@@ -137,11 +137,12 @@ const Tasks = () => {
                             <div className='max-w-2xl mx-auto'>
                                 <div className="card card-xl border-2 border-dashed border-yellow-500/20">
                                     <div className="card-body flex flex-col items-center">
-                                        <div className="card-title flex flex-row gap-5 items-center justify-center">
+                                        <div className="card-title flex flex-row gap-2 items-center justify-center">
                                             <img src={AureoTip} className="size-15"/>
-                                            <h1 className="tracking-wide font-semibold">You don't have a task yet!</h1>
+                                            <h1 className="tracking-wide font-semibold">You don't have any tasks yet!</h1>
                                         </div>
-                                        <Link to="/tasks/create" className="btn btn-soft px-10">Create Task</Link>
+                                        <p className="font-medium tracking-wide">Start building momentum today.</p>
+                                        <Link to="/tasks/create" className="btn btn-soft px-10 mt-5">Create Task</Link>
                                     </div>
                                 </div>
                             </div>
