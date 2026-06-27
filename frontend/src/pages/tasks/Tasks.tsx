@@ -1,10 +1,12 @@
 import AppLayout from "../../layouts/AppLayout"
 
+import AureoTip from '../../assets/Aureo/AureoTip.png'
+
 import TaskCard from "../../components/TaskCard"
 import CompletedTaskCard from "../../components/CompletedTaskCard"
 
 import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router'
+import { useNavigate, Link } from 'react-router'
 import api from "../../lib/axios"
 import axios from 'axios'
 import toast from 'react-hot-toast'
@@ -22,8 +24,9 @@ interface TasksProps {
 const Tasks = () => {
 
     const [tasks, setTasks] = useState<TasksProps[]>([])
-    const navigate = useNavigate()
     const [completedTasks, setCompletedTasks] = useState<TasksProps[]>([])
+    const [loading, setLoading] = useState(true)
+    const navigate = useNavigate()
 
     useEffect(() => {
         const fetchTasks = async() => {
@@ -48,6 +51,7 @@ const Tasks = () => {
 
         fetchTasks()
         fetchCompletedTasks()
+        setLoading(false)
     }, [])
 
         const handleComplete = async(_id: string, e: React.MouseEvent<HTMLButtonElement>) => {
@@ -91,6 +95,7 @@ const Tasks = () => {
                 
                 await api.delete(`/tasks/${_id}`)
                 setTasks((prev) => prev.filter(tasks => tasks._id !== _id))
+                setCompletedTasks((prev) => prev.filter(tasks => tasks._id !== _id))
                 toast.success("Successfully deleted note!")
                 navigate("/tasks")
 
@@ -111,13 +116,45 @@ const Tasks = () => {
             }
         }
 
+    if (loading || !tasks || !completedTasks) {
+        return(
+            <div className="min-h-screen bg-base-200 flex items-center justify-center">
+                <span className="loading loading-spinner loading-md"></span>
+            </div>
+        )
+    }
 
+    if (tasks.length === 0) {
+        return(
+            <AppLayout
+            title="Tasks"
+            actionLabel="Create Task"
+            url="/tasks/create"
+            >
+                
+                    <div className="bg-base-100 flex items-center justify-center">
+                        <div className="container px-4 py-8">
+                            <div className='max-w-2xl mx-auto'>
+                                <div className="card card-xl border-2 border-dashed border-yellow-500/20">
+                                    <div className="card-body flex flex-col items-center">
+                                        <div className="card-title flex flex-row gap-5 items-center justify-center">
+                                            <img src={AureoTip} className="size-15"/>
+                                            <h1 className="tracking-wide font-semibold">You don't have a task yet!</h1>
+                                        </div>
+                                        <Link to="/tasks/create" className="btn btn-soft px-10">Create Task</Link>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                
+            </AppLayout>
+        )
+    }
 
     return (
         <AppLayout
         title="Tasks"
-        // showSearch={true}
-        // searchContent="Tasks"
         actionLabel="Create Task"
         url="/tasks/create"
         >
@@ -143,11 +180,13 @@ const Tasks = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
                     {completedTasks.map(completedTask => (
                         <CompletedTaskCard
+                        _id={completedTask._id}
                         key={completedTask._id}
                         title={completedTask.title}
                         description={completedTask.description}
                         priority={completedTask.priority}
                         dueDate={completedTask.dueDate}
+                        handleDelete={handleDelete}
                         />
                     ))}
                 </div>

@@ -28,6 +28,7 @@ const Dashboard = () => {
 
     const [tasks, setTasks] = useState<GeneralProps[]>([])
     const [notes, setNotes] = useState<GeneralProps[]>([])
+    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
 
@@ -77,6 +78,7 @@ const Dashboard = () => {
 
         fetchNotes()
         fetchTasks()
+        setLoading(false)
     }, [])
 
             const handleDeleteNotes = async(_id: string, e: React.MouseEvent<HTMLButtonElement>) => {
@@ -135,6 +137,14 @@ const Dashboard = () => {
                 }
             }
         }
+
+    if (loading || !notes || !tasks) {
+        return(
+            <div className="min-h-screen bg-base-200 flex items-center justify-center">
+                <span className="loading loading-spinner loading-md"></span>
+            </div>
+        )
+    }
 
     return (
         <>

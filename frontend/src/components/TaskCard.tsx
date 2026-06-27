@@ -2,7 +2,7 @@ import PriorityBadge from "./PriorityBadge"
 import { Link } from 'react-router'
 
 interface TaskCardProps {
-    _id: string
+    _id: string,
     title: string,
     description: string,
     priority: "low" | "medium" | "high",
@@ -33,6 +33,7 @@ const TaskCard = ({
         medium: "status-warning",
         low: "status-success"
     }
+
 
 
     return (

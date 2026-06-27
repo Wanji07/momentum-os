@@ -127,6 +127,7 @@ const ViewTasksPage = () => {
             </div>
         )
     }
+    
 
     return (
         <AppLayout title="View Notes">
@@ -158,7 +159,7 @@ const ViewTasksPage = () => {
                                 </div>
                             </div>
                             <div className="card-actions">
-                                <button type="button" className="btn btn-soft btn-info cursor-pointer">Edit</button>
+                                <Link to={`/tasks/${id}/edit`} type="button" className="btn btn-soft btn-info cursor-pointer">Edit</Link>
                                 <button type="button" 
                                 className="btn btn-soft btn-success cursor-pointer"
                                 onClick={(e) => handleComplete(task._id, e)}> Complete</button>

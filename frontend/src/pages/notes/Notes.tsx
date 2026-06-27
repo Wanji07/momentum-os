@@ -18,6 +18,7 @@ interface NotesProps {
 const Notes = () => {
 
     const [notes, setNotes] = useState<NotesProps[]>([])
+    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
         const fetchNotes = async() => {
@@ -31,6 +32,7 @@ const Notes = () => {
         }
 
         fetchNotes()
+        setLoading(false)
     }, [])
 
     const handleDelete = async(id: string, e: React.MouseEvent<HTMLButtonElement>) => {
@@ -52,11 +54,17 @@ const Notes = () => {
         }
     }
 
+    if (loading || !notes) {
+        return(
+            <div className="min-h-screen bg-base-200 flex items-center justify-center">
+                <span className="loading loading-spinner loading-md"></span>
+            </div>
+        )
+    }
+
     return (
         <AppLayout
         title="Notes"
-        // showSearch={true}
-        // searchContent="Notes"
         actionLabel="Create Note"
         url="/notes/create"
         >
