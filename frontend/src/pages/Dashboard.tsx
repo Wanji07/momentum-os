@@ -11,6 +11,8 @@ import axios from 'axios'
 import api from "../lib/axios"
 import toast from "react-hot-toast"
 
+import RateLimitedUI from "../components/RateLimitedUI"
+
 interface GeneralProps {
     _id: string,
     title: string,
@@ -28,6 +30,7 @@ const Dashboard = () => {
 
     const [tasks, setTasks] = useState<GeneralProps[]>([])
     const [notes, setNotes] = useState<GeneralProps[]>([])
+    const [isRateLimited, setIsRateLimited] = useState(true)
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
@@ -36,10 +39,12 @@ const Dashboard = () => {
             try {
                 const res = await api.get("/notes")
                 console.log("Notes fetched: ", res.data)
+                setIsRateLimited(false)
                 setNotes(res.data)
             } catch (error) {
                 if (axios.isAxiosError(error)) {
                     if (error.response?.status === 429) {
+                        setIsRateLimited(true)
                         toast.error("You are requesting note data too fast!", {
                             duration: 4000
                         })
@@ -58,10 +63,12 @@ const Dashboard = () => {
             try {
                 const res = await api.get("/tasks")
                 console.log("Tasks fetched: ", res.data)
+                setIsRateLimited(false)
                 setTasks(res.data)
             } catch (error) {
                 if (axios.isAxiosError(error)) {
                     if (error.response?.status === 429) {
+                        setIsRateLimited(true)
                         toast.error("You are requesting task data too fast!", {
                             duration: 4000
                         })
@@ -92,10 +99,12 @@ const Dashboard = () => {
                 await api.delete(`/notes/${_id}`)
                 setNotes((prev) => prev.filter((note) => note._id !== _id))
                 toast.success("Successfully deleted note!")
+                setIsRateLimited(false)
 
             } catch (error) {
                 if (axios.isAxiosError(error)) {
                     if (error.response?.status === 429) {
+                        setIsRateLimited(true)
                         toast.error('You are deleting too fast!', {
                             duration: 4000
                         })
@@ -121,9 +130,11 @@ const Dashboard = () => {
                 await api.delete(`/tasks/${_id}`)
                 setTasks((prev) => prev.filter((task) => task._id !== _id))
                 toast.success("Successfully deleted note!")
+                setIsRateLimited(false)
             } catch (error) {
                 if (axios.isAxiosError(error)) {
                     if (error.response?.status === 429) {
+                        setIsRateLimited(true)
                         toast.error('You are deleting too fast!', {
                             duration: 4000
                         })
@@ -152,6 +163,8 @@ const Dashboard = () => {
             title="Dashboard"
             >
             <div className="container max-w-screen max-h-15 flex flex-col">
+                {isRateLimited ? <RateLimitedUI /> : (
+                    <>
                 <div className="hero w-full">
                     <div className="hero-content flex flex-row items-center gap-5">
                         <img src={Aureo} className="size-25" />
@@ -251,6 +264,8 @@ const Dashboard = () => {
                         </div>
                     </div>
                 </section>
+                    </>
+                )}
             </div>
             </AppLayout>
         </>

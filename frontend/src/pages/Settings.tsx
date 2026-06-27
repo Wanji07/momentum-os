@@ -1,7 +1,7 @@
 import AppLayout from "../layouts/AppLayout"
 import SettingsCard from "../components/SettingsCard"
-import { Pencil } from "lucide-react"
-import { Link } from "react-router"
+// import { Pencil } from "lucide-react"
+// import { Link } from "react-router"
 
 const Settings = () => {
     return (

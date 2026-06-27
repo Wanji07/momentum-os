@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 
 import AppLayout from "../../layouts/AppLayout"
 import NoteCard from "../../components/NoteCard"
+import RateLimitedUI from '../../components/RateLimitedUI'
 
 import AureoTip from '../../assets/Aureo/AureoTip.png'
 
@@ -22,6 +23,7 @@ interface NotesProps {
 const Notes = () => {
 
     const [notes, setNotes] = useState<NotesProps[]>([])
+    const [isRateLimited, setIsRateLimited] = useState(true)
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
@@ -30,8 +32,22 @@ const Notes = () => {
                 const res = await api.get("/notes")
                 console.log(res.data)
                 setNotes(res.data)
+                setIsRateLimited(false)
             } catch (error) {
-                console.log("Error fetching notes!", error)
+                if (axios.isAxiosError(error)) {
+                    if (error.response?.status === 429) {
+                        setIsRateLimited(true)
+                        toast.error("Youa are requesting too fast!", {
+                            duration: 4000
+                        })
+                    } else {
+                        toast.error("Error in fetching notes!")
+                        console.log("Error on fetching notes:", error)
+                    }
+                } else {
+                    toast.error("Something went wrong!")
+                    console.log("Unexpected Error:", error)
+                }
             }
         }
 
@@ -66,14 +82,13 @@ const Notes = () => {
         )
     }
 
-    if (notes.length === 0) {
+    if (notes.length === 0 && !isRateLimited) {
         return(
             <AppLayout
             title="Notes"
             actionLabel="Create Note"
             url="/notes/create"
             >
-                
                     <div className="bg-base-100 flex items-center justify-center">
                         <div className="container px-4 py-8">
                             <div className='max-w-2xl mx-auto'>
@@ -94,30 +109,27 @@ const Notes = () => {
             </AppLayout>
         )
     }
-
-
     return (
         <AppLayout
         title="Notes"
         actionLabel="Create Note"
         url="/notes/create"
         >
-        
-        <div className="container max-w-screen grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
-            {notes.map(note => (
-                <NoteCard
-                key={note._id}
-                _id={note._id}
-                title={note.title}
-                content={note.content}
-                updatedAt={note.updatedAt}
-                icon={note.icon}
-                handleDelete={handleDelete}
-                />
-            ))}
-
-        </div>
-
+            {isRateLimited ? <RateLimitedUI /> : (
+                <div className="container max-w-screen grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
+                    {notes.map(note => (
+                        <NoteCard
+                        key={note._id}
+                        _id={note._id}
+                        title={note.title}
+                        content={note.content}
+                        updatedAt={note.updatedAt}
+                        icon={note.icon}
+                        handleDelete={handleDelete}
+                        />
+                    ))}
+                </div>
+            )}
         </AppLayout>
     )
 }

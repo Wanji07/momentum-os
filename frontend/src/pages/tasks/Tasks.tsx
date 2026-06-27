@@ -5,6 +5,8 @@ import AureoTip from '../../assets/Aureo/AureoTip.png'
 import TaskCard from "../../components/TaskCard"
 import CompletedTaskCard from "../../components/CompletedTaskCard"
 
+import RateLimitedUI from "../../components/RateLimitedUI"
+
 import { useEffect, useState } from 'react'
 import { useNavigate, Link } from 'react-router'
 import api from "../../lib/axios"
@@ -25,6 +27,7 @@ const Tasks = () => {
 
     const [tasks, setTasks] = useState<TasksProps[]>([])
     const [completedTasks, setCompletedTasks] = useState<TasksProps[]>([])
+    const [isRateLimited, setIsRateLimited] = useState(true)
     const [loading, setLoading] = useState(true)
     const navigate = useNavigate()
 
@@ -33,9 +36,23 @@ const Tasks = () => {
             try {
                 const res = await api.get("/tasks")
                 console.log(res.data)
+                setIsRateLimited(false)
                 setTasks(res.data)
             } catch (error) {
-                console.log("Error fetching tasks!", error)
+                if (axios.isAxiosError(error)) {
+                    if (error.response?.status === 429) {
+                        setIsRateLimited(true)
+                        toast.error("You are requesting too fast!", {
+                            duration: 4000
+                        })
+                    } else {
+                        toast.error("Failed fetching tasks!")
+                        console.log("Error fetching task: ", error)
+                    }
+                } else {
+                    toast.error("Something went wrong!")
+                    console.log("Unexpected Error:", error)
+                }
             }
         }
 
@@ -44,8 +61,22 @@ const Tasks = () => {
                 const res = await api.get("/tasks/completed")
                 console.log(res.data)
                 setCompletedTasks(res.data)
+                setIsRateLimited(false)
             } catch (error) {
-                console.log("Error fetching completed tasks!", error)
+                if (axios.isAxiosError(error)) {
+                    if (error.response?.status === 429) {
+                        setIsRateLimited(true)
+                        toast.error("You are requesting too fast!", {
+                            duration: 40000
+                        })
+                    } else {
+                        toast.error("Failed to fetch completed tasks!")
+                        console.log("Error fetching completed tasks:", error)
+                    }
+                } else {
+                    toast.error("Something went wrong!")
+                    console.log("Unexpected Error:", error)
+                }
             }
         }
 
@@ -124,7 +155,7 @@ const Tasks = () => {
         )
     }
 
-    if (tasks.length === 0) {
+    if (tasks.length === 0 && !isRateLimited) {
         return(
             <AppLayout
             title="Tasks"
@@ -160,38 +191,39 @@ const Tasks = () => {
         url="/tasks/create"
         >
             <div className="container max-w-screen flex flex-col gap-2 justify-center">
-                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
-                    {tasks.map(task => (
-                        <TaskCard 
-                        key={task._id}
-                        _id={task._id}
-                        title={task.title}
-                        description={task.description}
-                        priority={task.priority}
-                        dueDate={task.dueDate}
-                        handleComplete={handleComplete}
-                        handleDelete={handleDelete}
-                        />
-                    ))}
-                </div>
+                {isRateLimited ? <RateLimitedUI /> : (
+                    <>
+                        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
+                            {tasks.map(task => (
+                                <TaskCard 
+                                key={task._id}
+                                _id={task._id}
+                                title={task.title}
+                                description={task.description}
+                                priority={task.priority}
+                                dueDate={task.dueDate}
+                                handleComplete={handleComplete}
+                                handleDelete={handleDelete}
+                                />
+                            ))}
+                        </div>
+                        <div className="divider opacity-50">Completed Tasks</div>
 
-                {}
-                <div className="divider opacity-50">Completed Tasks</div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
-                    {completedTasks.map(completedTask => (
-                        <CompletedTaskCard
-                        _id={completedTask._id}
-                        key={completedTask._id}
-                        title={completedTask.title}
-                        description={completedTask.description}
-                        priority={completedTask.priority}
-                        dueDate={completedTask.dueDate}
-                        handleDelete={handleDelete}
-                        />
-                    ))}
-                </div>
-
+                        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
+                            {completedTasks.map(completedTask => (
+                                <CompletedTaskCard
+                                _id={completedTask._id}
+                                key={completedTask._id}
+                                title={completedTask.title}
+                                description={completedTask.description}
+                                priority={completedTask.priority}
+                                dueDate={completedTask.dueDate}
+                                handleDelete={handleDelete}
+                                />
+                            ))}
+                        </div>
+                    </>
+                )}
             </div>
         </AppLayout>
     )

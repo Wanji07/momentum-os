@@ -80,7 +80,7 @@ const CreateTasksPage = () => {
                                             <span className="label-text">Title</span>
                                         </label>
                                         <input type="text"
-                                        placeholder="Note Title"
+                                        placeholder="Task Title"
                                         className="input input-bordered w-full"
                                         value={title}
                                         onChange={(e) => setTitle(e.target.value)}
