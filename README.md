@@ -1,7 +1,3 @@
-<img width="1649" height="450" alt="image" src="https://github.com/user-attachments/assets/9cdcdbf5-81c3-4d34-abd5-1d7384645f6f" /><div align="center">
-
-<img src="./frontend/src/assets/MomentumEagle.svg" alt="MomentumOS Logo" width="120"/>
-
 # MomentumOS 🦅
 
 **Build Momentum. One Task at a Time.**
